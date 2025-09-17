@@ -31,6 +31,7 @@
 #pragma once
 
 #include "scene/gui/link_button.h"
+#include "scene/gui/texture_rect.h"
 
 class HTTPRequest;
 
@@ -44,6 +45,8 @@ public:
 		NEWEST_STABLE,
 		NEWEST_PATCH,
 	};
+
+	void set_link_icon(TextureRect *p_icon);
 
 private:
 	static constexpr int DEV_VERSION = 9999; // Version index for unnumbered builds (assumed to always be newest).
@@ -74,6 +77,7 @@ private:
 	} theme_cache;
 
 	HTTPRequest *http = nullptr;
+	TextureRect *icon = nullptr;
 
 	UpdateStatus status = UpdateStatus::NONE;
 	bool checked_update = false;

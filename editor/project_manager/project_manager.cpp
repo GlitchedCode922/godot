@@ -1670,6 +1670,12 @@ ProjectManager::ProjectManager() {
 		EngineUpdateLabel *update_label = memnew(EngineUpdateLabel);
 		footer_bar->add_child(update_label);
 		update_label->connect("offline_clicked", callable_mp(this, &ProjectManager::_show_quick_settings));
+
+		TextureRect *link_icon = memnew(TextureRect);
+		link_icon->set_texture(get_editor_theme_icon(SNAME("ExternalLink")));
+		link_icon->hide();
+		update_label->set_link_icon(link_icon);
+		footer_bar->add_child(link_icon);
 #endif
 
 		EditorVersionButton *version_btn = memnew(EditorVersionButton(EditorVersionButton::FORMAT_WITH_BUILD));

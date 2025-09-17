@@ -33,7 +33,13 @@
 #include "core/io/json.h"
 #include "editor/editor_string_names.h"
 #include "editor/settings/editor_settings.h"
+#include "project_dialog.h"
+#include "scene/gui/texture_rect.h"
 #include "scene/main/http_request.h"
+
+void EngineUpdateLabel::set_link_icon(TextureRect *p_icon) {
+	icon = p_icon;
+}
 
 bool EngineUpdateLabel::_can_check_updates() const {
 	return int(EDITOR_GET("network/connection/network_mode")) == EditorSettings::NETWORK_ONLINE &&
@@ -171,6 +177,7 @@ void EngineUpdateLabel::_set_status(UpdateStatus p_status) {
 	if (status == UpdateStatus::BUSY || status == UpdateStatus::UP_TO_DATE) {
 		// Hide the label to prevent unnecessary distraction.
 		hide();
+		icon->hide();
 		return;
 	} else {
 		show();
@@ -186,6 +193,7 @@ void EngineUpdateLabel::_set_status(UpdateStatus p_status) {
 			}
 			set_accessibility_live(DisplayServer::AccessibilityLiveMode::LIVE_OFF);
 			set_tooltip_text("");
+			icon->hide();
 			break;
 		}
 
@@ -193,12 +201,14 @@ void EngineUpdateLabel::_set_status(UpdateStatus p_status) {
 			set_disabled(false);
 			set_accessibility_live(DisplayServer::AccessibilityLiveMode::LIVE_POLITE);
 			set_tooltip_text(TTR("An error has occurred. Click to try again."));
+			icon->hide();
 		} break;
 
 		case UpdateStatus::UPDATE_AVAILABLE: {
 			set_disabled(false);
 			set_accessibility_live(DisplayServer::AccessibilityLiveMode::LIVE_POLITE);
 			set_tooltip_text(TTR("Click to open download page."));
+			icon->show();
 		} break;
 
 		default: {
